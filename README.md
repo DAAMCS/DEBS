@@ -1,4 +1,4 @@
-# DAAMCS Eljure Brute Software
+# DAAMCS Eljur Brute Software
 ### Принцип работы
 ```
 - Програма реализована целиком на Python с использованием библиотеки requests.
