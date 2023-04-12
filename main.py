@@ -28,9 +28,12 @@ def solve(schooldomain):
                 print(Fore.RED + f'Пробую - {x}:{i} | Ошибка | {round((time.time() - start_time)*1000)}ms')
             else:
                 print(Fore.GREEN + f'Пробую - {x}:{i} | Данные верны | {round((time.time() - start_time)*1000)}ms')
-                f = open('truedata', 'w')
+                f = open('truedata.txt', 'w')
                 f.write(f'{x}:{i}')
-    f.close()
+                try:
+                    f.close()    
+                except:
+                    print(Fore.MAGENTA + f'[ERROR] Initial Error' )
 if __name__ == "__main__":
     if schooldomain == '':
         print(Back.RED, Fore.BLACK + 'Ошибка! Укажите домен школы в файле config.py')
